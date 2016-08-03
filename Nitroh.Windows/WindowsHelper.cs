@@ -28,7 +28,7 @@ namespace Nitroh.Windows
             return valid ? ReadUInt(buffer) : 0;
         }
 
-        public static byte[] ReadFunctionCode(byte[] memory)
+        public static byte[] ParseFunctionCode(byte[] memory)
         {
             var buffer = new byte[memory.Length - 2];
             if (memory[0] == MovByte && memory[memory.Length - 1] == RtnByte)
@@ -38,7 +38,7 @@ namespace Nitroh.Windows
             return buffer;
         }
 
-        public static string ReadString(byte[] memory, long offset = 0)
+        public static string ParseString(byte[] memory, long offset = 0)
         {
             var buffer = new List<byte>();
             for (var index = 0; index < MaxStringLength; index++)
@@ -53,10 +53,10 @@ namespace Nitroh.Windows
         {
             byte[] buffer;
             var valid = ReadMemory(handle, offset, MaxStringLength, out buffer);
-            return valid ? ReadString(buffer) : string.Empty;
+            return valid ? ParseString(buffer) : string.Empty;
         }
 
-        public static T ReadStruct<T>(byte[] memory, long offset = 0) where T : struct
+        public static T ParseStruct<T>(byte[] memory, long offset = 0) where T : struct
         {
             var size = Marshal.SizeOf(typeof(T));
             var buffer = new byte[size];
@@ -72,7 +72,7 @@ namespace Nitroh.Windows
             var size = Marshal.SizeOf(typeof(T));
             byte[] buffer;
             var valid = ReadMemory(handle, offset, size, out buffer);
-            return valid ? ReadStruct<T>(buffer) : default(T);
+            return valid ? ParseStruct<T>(buffer) : default(T);
         }
 
         public static bool ReadMemory(IntPtr handle, long baseAddress, long size, out byte[] buffer)

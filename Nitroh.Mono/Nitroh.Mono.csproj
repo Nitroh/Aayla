@@ -43,13 +43,13 @@
     <Compile Include="..\SolutionItems\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="domain_internals_h.cs" />
-    <Compile Include="image_h.cs" />
-    <Compile Include="metadata_h.cs" />
-    <Compile Include="metadata_internals_h.cs" />
-    <Compile Include="MonoAssembly.cs" />
-    <Compile Include="MonoDomain.cs" />
+    <Compile Include="Internals\domain_internals_h.cs" />
+    <Compile Include="Internals\image_h.cs" />
+    <Compile Include="Internals\metadata_h.cs" />
+    <Compile Include="Internals\metadata_internals_h.cs" />
+    <Compile Include="MonoClassEx.cs" />
     <Compile Include="MonoExecutable.cs" />
+    <Compile Include="Internals\mono_internal_hash_h.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +59,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="class_internals_h.cs" />
+    <Compile Include="Internals\class_internals_h.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

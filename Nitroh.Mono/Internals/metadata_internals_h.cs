@@ -6,7 +6,7 @@ using pointer = System.UInt32;
 
 // Source: https://github.com/Unity-Technologies/mono/blob/unity-staging/mono/metadata/metadata-internals.h
 
-namespace Nitroh.Mono
+namespace Nitroh.Mono.Internals
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct MonoAssembly
@@ -65,7 +65,7 @@ namespace Nitroh.Mono
         internal pointer aot_module;
         internal pointer assembly;
         internal pointer method_cache;
-        //class-cache
+        internal MonoInternalHashTable class_cache;
         internal pointer methodref_cache;
         internal pointer field_cache;
         internal pointer typespec_cache;

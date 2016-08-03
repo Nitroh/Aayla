@@ -6,7 +6,7 @@ using pointer = System.UInt32;
 
 // Source: https://github.com/Unity-Technologies/mono/blob/unity-staging/mono/metadata/metadata.h
 
-namespace Nitroh.Mono
+namespace Nitroh.Mono.Internals
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct MonoType

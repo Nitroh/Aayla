@@ -6,7 +6,7 @@ using pointer = System.UInt32;
 
 // Source: //https://github.com/mono/mono/blob/master/mono/metadata/image.h
 
-namespace Nitroh.Mono
+namespace Nitroh.Mono.Internals
 {
     [StructLayout(LayoutKind.Sequential)]
     internal struct MonoAssemblyName
