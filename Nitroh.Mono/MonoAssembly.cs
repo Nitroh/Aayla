@@ -6,7 +6,7 @@ namespace Nitroh.Mono
     /// Source is https://github.com/mono/mono/blob/master/mono/metadata/metadata-internals.h.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MonoAssemblyName
+    internal struct _MonoAssemblyName
     {
         internal uint name;
         internal uint culture;
@@ -28,7 +28,7 @@ namespace Nitroh.Mono
     /// Source is https://github.com/mono/mono/blob/master/mono/metadata/metadata-internals.h.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MonoAssembly
+    internal struct _MonoAssembly
     {
         internal int ref_count;
         internal uint basedir;

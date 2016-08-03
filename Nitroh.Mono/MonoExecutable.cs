@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices;
 using Nitroh.Windows;
 
 namespace Nitroh.Mono
@@ -17,10 +18,25 @@ namespace Nitroh.Mono
 
         public long GetTest()
         {
+            var domainSize = Marshal.SizeOf(typeof(MonoDomain));
+            var assemblySize = Marshal.SizeOf(typeof(MonoAssembly));
+            var assemblyNameSize = Marshal.SizeOf(typeof(MonoAssemblyName));
+            var imageSize = Marshal.SizeOf(typeof(MonoImage));
+            var classSize = Marshal.SizeOf(typeof(MonoClass));
+            var typeSize = Marshal.SizeOf(typeof(MonoType));
+
+            //domainSize --> 112
+            //assemblyNameSize --> 56
+            //assemblySize --> 84
+            //imageSize --> 672
+
+            var currSize = 0x8;
+
+            return 0;
             //TODO: this is test code
-            var rootDomain = GetMonoDomain();
-            var assembly = GetMonoAssembly(rootDomain, MonoAssemblyName);
-            return assembly.image;
+            //var rootDomain = GetMonoDomain();
+            //var assembly = GetMonoAssembly(rootDomain, MonoAssemblyName);
+            //return assembly.image;
         }
 
         private MonoAssembly GetMonoAssembly(MonoDomain domain, string name)

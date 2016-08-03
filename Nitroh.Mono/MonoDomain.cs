@@ -6,7 +6,7 @@ namespace Nitroh.Mono
     /// Source is https://github.com/mono/mono/blob/master/mono/metadata/domain-internals.h.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct MonoDomain
+    public struct _MonoDomain
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
         public byte[] lock_;
