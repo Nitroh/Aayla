@@ -1,14 +1,17 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Nitroh.Mono;
+using Nitroh.Mono.Hearthstone;
 
 namespace Nitroh.Aayla
 {
     //TODO: Lots of test code
     public partial class MainWindow
     {
-        private MonoExecutable _hearthstone;
+        private HearthstoneExecutable _hearthstone;
 
         public MainWindow()
         {
@@ -18,12 +21,19 @@ namespace Nitroh.Aayla
 
         public async Task UpdateAsync()
         {
-            if(_hearthstone == null) _hearthstone = new MonoExecutable("Hearthstone");
+            if(_hearthstone == null) _hearthstone = new HearthstoneExecutable();
             var counter = 0;
+            var sb = new StringBuilder();
             while (true)
             {
-                var test = _hearthstone.GetTest();
-                await UpdateLabelOutputAsync($"ADDR: {test}. COUNTER: {counter}");
+                _hearthstone.Update();
+                sb.Clear();
+                sb.AppendLine($"RUNNING: {_hearthstone.Running}");
+                sb.AppendLine($"GAME TYPE: {_hearthstone.GameManager.GameType}");
+                sb.AppendLine($"FORMAT TYPE: {_hearthstone.GameManager.FormatType}");
+                sb.AppendLine($"SPECTATING: {_hearthstone.GameManager.Spectating}");
+                sb.AppendLine($"COUNTER: {counter}");
+                await UpdateLabelOutputAsync(sb.ToString());
                 await Task.Delay(100);
                 counter++;
                 if (counter == 1000) break;

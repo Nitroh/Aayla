@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{13E4CCCC-CD04-4BB5-B6DB-9726ECDE53A9}</ProjectGuid>
+    <ProjectGuid>{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nitroh.Mono</RootNamespace>
-    <AssemblyName>Nitroh.Mono</AssemblyName>
+    <RootNamespace>Nitroh.Mono.Hearthstone</RootNamespace>
+    <AssemblyName>Nitroh.Mono.Hearthstone</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,26 +43,20 @@
     <Compile Include="..\SolutionItems\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Internals\domain_internals_h.cs" />
-    <Compile Include="Internals\image_h.cs" />
-    <Compile Include="Internals\metadata_h.cs" />
-    <Compile Include="Internals\metadata_internals_h.cs" />
-    <Compile Include="MonoClassEx.cs" />
-    <Compile Include="MonoClassFieldEx.cs" />
-    <Compile Include="MonoExecutable.cs" />
-    <Compile Include="Internals\mono_internal_hash_h.cs" />
-    <Compile Include="MonoObject.cs" />
-    <Compile Include="MonoObjectField.cs" />
+    <Compile Include="GameManager.cs" />
+    <Compile Include="HearthstoneExecutable.cs" />
+    <Compile Include="HearthstoneMonoObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Nitroh.Mono\Nitroh.Mono.csproj">
+      <Project>{13E4CCCC-CD04-4BB5-B6DB-9726ECDE53A9}</Project>
+      <Name>Nitroh.Mono</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nitroh.Windows\Nitroh.Windows.csproj">
-      <Project>{720273A6-A653-4EFD-963C-AB5A782F3925}</Project>
+      <Project>{720273a6-a653-4efd-963c-ab5a782f3925}</Project>
       <Name>Nitroh.Windows</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Internals\class_internals_h.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

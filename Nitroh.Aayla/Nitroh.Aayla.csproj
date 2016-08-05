@@ -99,6 +99,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Nitroh.Mono.Hearthstone\Nitroh.Mono.Hearthstone.csproj">
+      <Project>{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}</Project>
+      <Name>Nitroh.Mono.Hearthstone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nitroh.Mono\Nitroh.Mono.csproj">
       <Project>{13E4CCCC-CD04-4BB5-B6DB-9726ECDE53A9}</Project>
       <Name>Nitroh.Mono</Name>

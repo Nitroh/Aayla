@@ -17,31 +17,36 @@ namespace Nitroh.Mono
         {
         }
 
-        public long GetTest()
+        public IEnumerable<MonoClassEx> GetClasses()
         {
-            //TODO: this is test code
             var rootDomain = GetMonoDomain();
             var assembly = GetMonoAssembly(rootDomain, MonoAssemblyName);
             var classes = GetMonoClasses(assembly);
-            var names = classes.Select(c => c.Name).ToList();
-            return 1;
+            return classes;
         }
 
         private IEnumerable<MonoClassEx> GetMonoClasses(MonoAssembly assembly)
         {
             var result = new List<MonoClassEx>();
+            if (assembly.image == 0) return result;
             var image = ReadStruct<MonoImage>(assembly.image);
             for (var index = 0; index < image.class_cache.size; index++)
             {
                 var monoClassPointer = ReadUInt(image.class_cache.table + 4*index);
-                var monoClass = ReadStruct<MonoClass>(monoClassPointer);
-                result.Add(new MonoClassEx(monoClass, Process.Handle));
+                while (monoClassPointer != 0)
+                {
+                    var monoClass = ReadStruct<MonoClass>(monoClassPointer);
+                    result.Add(new MonoClassEx(monoClass, Process.Handle));
+                    monoClassPointer = ReadUInt(monoClass.next_class_cache);
+                }
+
             }
             return result;
         }
 
         private MonoAssembly GetMonoAssembly(MonoDomain domain, string name)
         {
+            if(domain.domain_assemblies == 0) return new MonoAssembly();
             var currentAssemblyPointer = domain.domain_assemblies;
             while (currentAssemblyPointer != 0)
             {
@@ -65,7 +70,7 @@ namespace Nitroh.Mono
             if(!valid) return new MonoDomain();
 
             var functionCode = WindowsHelper.ParseFunctionCode(rawFunctionCode);
-            var rootDomainPointer = WindowsHelper.ReadUInt(functionCode);
+            var rootDomainPointer = WindowsHelper.ParseUInt(functionCode);
             if(rootDomainPointer == 0) return new MonoDomain();
 
             var rootDomainOffset = ReadUInt(rootDomainPointer);

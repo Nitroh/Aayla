@@ -57,4 +57,35 @@ namespace Nitroh.Mono.Internals
 	    internal pointer ext;
 	    internal pointer user_data;
 	}
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct MonoClassField
+    {
+        internal pointer type;
+        internal pointer name;
+        internal pointer parent;
+        internal int offset;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct MonoClassRuntimeInfo
+    {
+        internal ushort max_domain;
+        internal pointer domain_vtables;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct MonoVTable
+    {
+        internal pointer klass;
+        internal pointer gc_descr;
+        internal pointer domain;
+        internal pointer interface_bitmap;
+        internal ushort max_interface_id;
+        internal byte rank;
+        internal byte bitfields; //TODO: bitfields
+        internal uint imt_collisions_bitmap;
+        internal pointer runtime_generic_context;
+        internal pointer vtable; //TODO: correct?
+    }
 }

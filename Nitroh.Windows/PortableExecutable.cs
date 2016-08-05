@@ -11,39 +11,56 @@ namespace Nitroh.Windows
         private readonly string _moduleName;
         private byte[] _headerMemory;
 
-        public Process Process { get; private set; }
+        public Process Process => Process.GetProcessesByName(_processName).FirstOrDefault();
 
         public long BaseAddress { get; private set; }
 
+        public bool Running { get; private set; }
+
         private List<Tuple<string, long>> _functionPointers;
         public IEnumerable<Tuple<string, long>> FunctionPointers => _functionPointers;
-
+        //{
+        //    get
+        //    {
+        //        if(_functionPointers == null || _functionPointers.Count == 0) Refresh();
+        //        return _functionPointers;
+        //    }
+        //}
 
         public PortableExecutable(string processName, string moduleName)
         {
             _processName = processName;
             _moduleName = moduleName;
-            Reload();
-        }
-
-        public void Reload()
-        {
             LoadHeaderMemory();
             LoadHeader();
         }
 
         private void Reset()
         {
-            Process = null;
             BaseAddress = 0;
             _functionPointers = new List<Tuple<string, long>>();
             _headerMemory = null;
         }
 
+        public void Update()
+        {
+            var running = Process != null && !Process.HasExited;
+            if (!Running && running)
+            {
+                Refresh();
+            }
+            Running = running;
+        }
+
+        protected virtual void Refresh()
+        {
+            LoadHeaderMemory();
+            LoadHeader();
+        }
+
         private void LoadHeaderMemory()
         {
             Reset();
-            Process = Process.GetProcessesByName(_processName).FirstOrDefault();
             var module = Process?.Modules.OfType<ProcessModule>().FirstOrDefault(x => x.ModuleName == _moduleName);
             if (module == null)
             {

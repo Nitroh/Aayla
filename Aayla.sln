@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nitroh.Aayla", "Nitroh.Aayl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nitroh.Windows", "Nitroh.Windows\Nitroh.Windows.csproj", "{720273A6-A653-4EFD-963C-AB5A782F3925}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nitroh.Mono.Hearthstone", "Nitroh.Mono.Hearthstone\Nitroh.Mono.Hearthstone.csproj", "{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{720273A6-A653-4EFD-963C-AB5A782F3925}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{720273A6-A653-4EFD-963C-AB5A782F3925}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{720273A6-A653-4EFD-963C-AB5A782F3925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
