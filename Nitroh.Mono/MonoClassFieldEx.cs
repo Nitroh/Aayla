@@ -6,14 +6,14 @@ namespace Nitroh.Mono
 {
     public class MonoClassFieldEx
     {
-        private readonly IntPtr _processHandle;
+        private readonly PortableExecutable _executable;
 
         internal MonoClassField ClassField { get; }
 
-        internal MonoClassFieldEx(MonoClassField classField, IntPtr processHandle)
+        internal MonoClassFieldEx(MonoClassField classField, PortableExecutable executable)
         {
             ClassField = classField;
-            _processHandle = processHandle;
+            _executable = executable;
         }
 
         private string _name;
@@ -21,7 +21,7 @@ namespace Nitroh.Mono
         {
             get
             {
-                if (string.IsNullOrEmpty(_name)) _name = WindowsHelper.ReadString(_processHandle, ClassField.name);
+                if (string.IsNullOrEmpty(_name)) _name = _executable.ReadString(ClassField.name, false);
                 return _name;
             }
         }
@@ -33,7 +33,7 @@ namespace Nitroh.Mono
             {
                 if(ClassField.type == 0) return new MonoType();
                 if (_type.data != 0) return _type;
-                var monoType = WindowsHelper.ReadStruct<MonoType>(_processHandle, ClassField.type);
+                var monoType = _executable.ReadStruct<MonoType>(ClassField.type, false);
                 _type = monoType;
                 return _type;
             }
@@ -49,8 +49,8 @@ namespace Nitroh.Mono
             {
                 if (ClassField.parent == 0) return null;
                 if (_parent != null) return _parent;
-                var monoClass = WindowsHelper.ReadStruct<MonoClass>(_processHandle, ClassField.parent);
-                _parent = new MonoClassEx(monoClass, _processHandle);
+                var monoClass = _executable.ReadStruct<MonoClass>(ClassField.parent, false);
+                _parent = new MonoClassEx(monoClass, _executable);
                 return _parent;
             }
         }
@@ -59,8 +59,8 @@ namespace Nitroh.Mono
         {
             try
             {
-                var pointer = WindowsHelper.ReadUInt(_processHandle, Parent.VTable.interface_bitmap + Offset);
-                return pointer == 0 ? null : new MonoObject(pointer, _processHandle);
+                var pointer = _executable.ReadUInt(Parent.VTable.interface_bitmap + Offset, false);
+                return pointer == 0 ? null : new MonoObject(pointer, _executable);
             }
             catch (Exception)
             {

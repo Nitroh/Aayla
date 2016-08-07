@@ -43,7 +43,8 @@
     <Compile Include="..\SolutionItems\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="WindowsHelper.cs" />
+    <Compile Include="Memory\MemoryCache.cs" />
+    <Compile Include="Memory\MemoryPage.cs" />
     <Compile Include="Kernel32.cs" />
     <Compile Include="PortableExecutable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,12 +12,21 @@ namespace Nitroh.Mono
         private const string MonoGetRootDomain = @"mono_get_root_domain";
         private const string MonoAssemblyName = @"Assembly-CSharp";
         private const int MonoGetRootDomainFuncSize = 4;
+        
+        public IEnumerable<MonoClassEx> MonoClasses { get; private set; }
 
         public MonoExecutable(string processName) : base(processName, MonoModuleName)
         {
+            MonoClasses = GetClasses();
         }
 
-        public IEnumerable<MonoClassEx> GetClasses()
+        protected override void Refresh()
+        {
+            base.Refresh();
+            MonoClasses = GetClasses();
+        }
+
+        private IEnumerable<MonoClassEx> GetClasses()
         {
             var rootDomain = GetMonoDomain();
             var assembly = GetMonoAssembly(rootDomain, MonoAssemblyName);
@@ -29,33 +38,35 @@ namespace Nitroh.Mono
         {
             var result = new List<MonoClassEx>();
             if (assembly.image == 0) return result;
-            var image = ReadStruct<MonoImage>(assembly.image);
+            var image = ReadStruct<MonoImage>(assembly.image, false);
             for (var index = 0; index < image.class_cache.size; index++)
             {
-                var monoClassPointer = ReadUInt(image.class_cache.table + 4*index);
+                var monoClassPointer = ReadUInt(image.class_cache.table + 4*index, false);
                 while (monoClassPointer != 0)
                 {
-                    var monoClass = ReadStruct<MonoClass>(monoClassPointer);
-                    result.Add(new MonoClassEx(monoClass, Process.Handle));
-                    monoClassPointer = ReadUInt(monoClass.next_class_cache);
+                    var monoClass = ReadStruct<MonoClass>(monoClassPointer, false);
+                    result.Add(new MonoClassEx(monoClass, this));
+                    monoClassPointer = ReadUInt(monoClass.next_class_cache, false);
                 }
-
             }
             return result;
         }
 
         private MonoAssembly GetMonoAssembly(MonoDomain domain, string name)
         {
-            if(domain.domain_assemblies == 0) return new MonoAssembly();
+            if (domain.domain_assemblies == 0)
+            {
+                return new MonoAssembly();
+            }
             var currentAssemblyPointer = domain.domain_assemblies;
             while (currentAssemblyPointer != 0)
             {
-                var currentAssemblyOffset = ReadUInt(currentAssemblyPointer);
-                var currentAssembly = ReadStruct<MonoAssembly>(currentAssemblyOffset);
-                var currentAssemblyName = WindowsHelper.ReadString(Process.Handle, currentAssembly.aname.name);
+                var currentAssemblyOffset = ReadUInt(currentAssemblyPointer, false);
+                var currentAssembly = ReadStruct<MonoAssembly>(currentAssemblyOffset, false);
+                var currentAssemblyName = ReadString(currentAssembly.aname.name, false);
                 if(currentAssemblyName == name)
                     return currentAssembly;
-                currentAssemblyPointer = ReadUInt(currentAssemblyPointer + sizeof(uint));
+                currentAssemblyPointer = ReadUInt(currentAssemblyPointer + sizeof(uint), false);
             }
             return new MonoAssembly();
         }
@@ -66,25 +77,15 @@ namespace Nitroh.Mono
             if (rootDomainFunctionPointer == 0) return new MonoDomain();
 
             byte[] rawFunctionCode;
-            var valid = WindowsHelper.ReadMemory(Process.Handle, BaseAddress + rootDomainFunctionPointer, MonoGetRootDomainFuncSize + 2, out rawFunctionCode);
+            var valid = GetMemory(BaseAddress + rootDomainFunctionPointer, MonoGetRootDomainFuncSize + 2, out rawFunctionCode, false);
             if(!valid) return new MonoDomain();
 
-            var functionCode = WindowsHelper.ParseFunctionCode(rawFunctionCode);
-            var rootDomainPointer = WindowsHelper.ParseUInt(functionCode);
+            var functionCode = ParseFunctionCode(rawFunctionCode);
+            var rootDomainPointer = ParseUInt(functionCode);
             if(rootDomainPointer == 0) return new MonoDomain();
 
-            var rootDomainOffset = ReadUInt(rootDomainPointer);
-            return ReadStruct<MonoDomain>(rootDomainOffset);
-        }
-
-        private T ReadStruct<T>(long offset) where T : struct
-        {
-            return WindowsHelper.ReadStruct<T>(Process.Handle, offset);
-        }
-
-        private uint ReadUInt(long offset)
-        {
-            return WindowsHelper.ReadUInt(Process.Handle, offset);
+            var rootDomainOffset = ReadUInt(rootDomainPointer, false);
+            return ReadStruct<MonoDomain>(rootDomainOffset, false);
         }
     }
 }

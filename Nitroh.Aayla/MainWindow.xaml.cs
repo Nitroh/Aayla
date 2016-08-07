@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using Nitroh.Mono;
 using Nitroh.Mono.Hearthstone;
 
 namespace Nitroh.Aayla
@@ -29,14 +27,17 @@ namespace Nitroh.Aayla
                 _hearthstone.Update();
                 sb.Clear();
                 sb.AppendLine($"RUNNING: {_hearthstone.Running}");
-                sb.AppendLine($"GAME TYPE: {_hearthstone.GameManager.GameType}");
-                sb.AppendLine($"FORMAT TYPE: {_hearthstone.GameManager.FormatType}");
-                sb.AppendLine($"SPECTATING: {_hearthstone.GameManager.Spectating}");
-                sb.AppendLine($"COUNTER: {counter}");
+                if (_hearthstone.Running)
+                {
+                    sb.AppendLine($"GAME TYPE: {_hearthstone.GameManager.GameType}");
+                    sb.AppendLine($"FORMAT TYPE: {_hearthstone.GameManager.FormatType}");
+                    sb.AppendLine($"SPECTATING: {_hearthstone.GameManager.Spectating}");
+                }
+                //sb.AppendLine($"COUNTER: {counter}");
                 await UpdateLabelOutputAsync(sb.ToString());
                 await Task.Delay(100);
                 counter++;
-                if (counter == 1000) break;
+                if (counter == 9999) break;
             }
         }
 

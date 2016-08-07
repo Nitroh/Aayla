@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Nitroh.Mono.Internals;
@@ -9,14 +8,14 @@ namespace Nitroh.Mono
 {
     public class MonoClassEx
     {
-        private readonly IntPtr _processHandle;
+        private readonly PortableExecutable _executable;
 
         internal MonoClass MonoClass { get; }
 
-        internal MonoClassEx(MonoClass monoClass, IntPtr processHandle)
+        internal MonoClassEx(MonoClass monoClass, PortableExecutable executable)
         {
+            _executable = executable;
             MonoClass = monoClass;
-            _processHandle = processHandle;
         }
 
         private string _name;
@@ -24,7 +23,7 @@ namespace Nitroh.Mono
         {
             get
             {
-                if (string.IsNullOrEmpty(_name)) _name = WindowsHelper.ReadString(_processHandle, MonoClass.name);
+                if (string.IsNullOrEmpty(_name)) _name = _executable.ReadString(MonoClass.name, false);
                 return _name;
             }
         }
@@ -34,7 +33,7 @@ namespace Nitroh.Mono
         {
             get
             {
-                if(string.IsNullOrEmpty(_namespace)) _namespace = WindowsHelper.ReadString(_processHandle, MonoClass.name_space);
+                if(string.IsNullOrEmpty(_namespace)) _namespace = _executable.ReadString(MonoClass.name_space, false);
                 return _namespace;
             }
         }
@@ -55,8 +54,8 @@ namespace Nitroh.Mono
             get
             {
                 if(_vTable.interface_bitmap != 0) return _vTable;
-                var monoRti = WindowsHelper.ReadStruct<MonoClassRuntimeInfo>(_processHandle, MonoClass.runtime_info);
-                _vTable = WindowsHelper.ReadStruct<MonoVTable>(_processHandle, monoRti.domain_vtables);
+                var monoRti = _executable.ReadStruct<MonoClassRuntimeInfo>(MonoClass.runtime_info, false);
+                _vTable = _executable.ReadStruct<MonoVTable>(monoRti.domain_vtables, false);
                 return _vTable;
             }
         }
@@ -74,10 +73,10 @@ namespace Nitroh.Mono
                     for (var index = 0; index < FieldCount; index++)
                     {
                         var offset = MonoClass.fields + Marshal.SizeOf(typeof(MonoClassField)) * index;
-                        _fields.Add(WindowsHelper.ReadStruct<MonoClassField>(_processHandle, offset));
+                        _fields.Add(_executable.ReadStruct<MonoClassField>(offset, false));
                     }
                 }
-                return _fields.Select(x => new MonoClassFieldEx(x, _processHandle));
+                return _fields.Select(x => new MonoClassFieldEx(x, _executable));
             }
         }
     }

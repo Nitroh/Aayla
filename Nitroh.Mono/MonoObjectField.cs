@@ -1,28 +1,27 @@
-﻿using System;
-using Nitroh.Windows;
+﻿using Nitroh.Windows;
 
 namespace Nitroh.Mono
 {
     public class MonoObjectField
     {
         private readonly MonoClassFieldEx _field;
-        private readonly IntPtr _processHandle;
+        private readonly PortableExecutable _executable;
         private readonly uint _baseAddress;
 
-        public MonoObjectField(MonoClassFieldEx field, IntPtr processHandle, uint baseAddress)
+        public MonoObjectField(MonoClassFieldEx field, PortableExecutable executable, uint baseAddress)
         {
             _field = field;
-            _processHandle = processHandle;
+            _executable = executable;
             _baseAddress = baseAddress;
         }
 
         public string Name => _field.Name;
 
-        private bool Valid => _processHandle.ToInt64() != 0 && _baseAddress != 0;
+        private bool Valid => _executable.Running && _baseAddress != 0;
 
-        #region WindowsHelper
-        private int? ReadInt() => WindowsHelper.ReadInt(_processHandle, _baseAddress + _field.Offset);
-        private bool? ReadBool() => WindowsHelper.ReadByte(_processHandle, _baseAddress + _field.Offset) != 0;
+        #region Helpers
+        private int? ReadInt() => _executable.ReadInt(_baseAddress + _field.Offset, true);
+        private bool? ReadBool() => _executable.ReadByte(_baseAddress + _field.Offset, true) != 0;
         #endregion
 
         #region TryGetValue

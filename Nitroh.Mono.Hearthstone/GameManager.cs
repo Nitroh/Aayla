@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Nitroh.Mono.Hearthstone
+﻿namespace Nitroh.Mono.Hearthstone
 {
     public class GameManager : HearthstoneMonoObject
     {

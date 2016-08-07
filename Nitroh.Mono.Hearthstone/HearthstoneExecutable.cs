@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Nitroh.Windows;
 
 namespace Nitroh.Mono.Hearthstone
 {
@@ -8,9 +7,7 @@ namespace Nitroh.Mono.Hearthstone
         private const string ImageName = @"Hearthstone";
         private const string GameMgrString = @"GameMgr";
         private const string StaticInstanceString = @"s_instance";
-
-        //public bool Running => GetClasses().ToList().Count > 0;
-
+        
         public GameManager GameManager { get; private set; }
 
         public HearthstoneExecutable() : base(ImageName)
@@ -31,7 +28,7 @@ namespace Nitroh.Mono.Hearthstone
 
         private MonoObject GetMonoObject(string name)
         {
-            var monoClass = GetClasses()?.FirstOrDefault(x => x.Name == name);
+            var monoClass = MonoClasses?.FirstOrDefault(x => x.Name == name);
             var monoField = monoClass?.Fields?.FirstOrDefault(x => x.Name == StaticInstanceString);
             return monoField?.TryGetFieldAsInstance();
         }
