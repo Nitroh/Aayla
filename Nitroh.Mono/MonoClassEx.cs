@@ -48,6 +48,16 @@ namespace Nitroh.Mono
             }
         }
 
+        private int _size;
+        public int Size
+        {
+            get
+            {
+                if (_size <= 0) _size = MonoClass.sizes;
+                return _size;
+            }
+        }
+
         private MonoVTable _vTable;
         internal MonoVTable VTable
         {
@@ -61,7 +71,6 @@ namespace Nitroh.Mono
         }
         
         private List<MonoClassField> _fields;
-
         public IEnumerable<MonoClassFieldEx> Fields
         {
             get

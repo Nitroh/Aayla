@@ -59,7 +59,7 @@ namespace Nitroh.Mono
         {
             try
             {
-                var pointer = _executable.ReadUInt(Parent.VTable.interface_bitmap + Offset, false);
+                var pointer = _executable.ReadUInt(Parent.VTable.data + Offset, false);
                 return pointer == 0 ? null : new MonoObject(pointer, _executable);
             }
             catch (Exception)

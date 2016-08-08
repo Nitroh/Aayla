@@ -157,11 +157,11 @@ namespace Nitroh.Windows
             return valid ? ParseInt(buffer) : 0;
         }
 
-        public string ReadString(long offset, bool live)
+        public string ReadString(long offset, bool live, int maxLength = MaxStringLength)
         {
             byte[] buffer;
-            var valid = _memoryCache.GetMemory(offset, MaxStringLength, out buffer, live);
-            return valid ? ParseString(buffer) : string.Empty;
+            var valid = _memoryCache.GetMemory(offset, maxLength, out buffer, live);
+            return valid ? ParseString(buffer, 0, maxLength) : string.Empty;
         }
 
         public T ReadStruct<T>(long offset, bool live) where T : struct
@@ -191,10 +191,10 @@ namespace Nitroh.Windows
             return BitConverter.ToInt32(memory, (int)offset);
         }
 
-        public static string ParseString(byte[] memory, long offset = 0)
+        public static string ParseString(byte[] memory, long offset = 0, int maxLength = MaxStringLength)
         {
             var buffer = new List<byte>();
-            for (var index = 0; index < MaxStringLength; index++)
+            for (var index = 0; index < maxLength; index++)
             {
                 if (memory[index + offset] == StringSeparator) break;
                 buffer.Add(memory[index + offset]);

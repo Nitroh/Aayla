@@ -80,6 +80,8 @@ namespace Nitroh.Mono.Internals
         internal pointer klass;
         internal pointer gc_descr;
         internal pointer domain;
+        internal pointer data;
+        internal pointer type;
         internal pointer interface_bitmap;
         internal ushort max_interface_id;
         internal byte rank;

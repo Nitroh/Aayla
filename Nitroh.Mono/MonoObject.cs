@@ -7,15 +7,17 @@ namespace Nitroh.Mono
 {
     public class MonoObject
     {
-        private readonly uint _objPointer;
+        private readonly long _objPointer;
         private readonly PortableExecutable _executable;
 
         private readonly List<MonoObjectField> _fields;
+        public List<MonoObjectField> Fields => _fields;
 
-        public MonoObject(uint objPointer, PortableExecutable executable)
+        public MonoObject(long objPointer, PortableExecutable executable)
         {
             _objPointer = objPointer;
             _executable = executable;
+            if (_objPointer == 0 || _executable == null) return;
             _fields = Class?.Fields.Select(x => new MonoObjectField(x, executable, objPointer)).ToList() ?? new List<MonoObjectField>();
         }
 

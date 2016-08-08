@@ -6,9 +6,11 @@ namespace Nitroh.Mono.Hearthstone
     {
         private const string ImageName = @"Hearthstone";
         private const string GameMgrString = @"GameMgr";
+        private const string NetCacheString = @"NetCache";
         private const string StaticInstanceString = @"s_instance";
         
         public GameManager GameManager { get; private set; }
+        public NetCache NetCache { get; private set; }
 
         public HearthstoneExecutable() : base(ImageName)
         {
@@ -18,6 +20,7 @@ namespace Nitroh.Mono.Hearthstone
         private void Initialize()
         {
             GameManager = new GameManager(GetMonoObject(GameMgrString));
+            NetCache = new NetCache(GetMonoObject(NetCacheString));
         }
 
         protected override void Refresh()

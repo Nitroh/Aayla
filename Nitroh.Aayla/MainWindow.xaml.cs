@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -32,6 +33,15 @@ namespace Nitroh.Aayla
                     sb.AppendLine($"GAME TYPE: {_hearthstone.GameManager.GameType}");
                     sb.AppendLine($"FORMAT TYPE: {_hearthstone.GameManager.FormatType}");
                     sb.AppendLine($"SPECTATING: {_hearthstone.GameManager.Spectating}");
+                    var collection = _hearthstone.NetCache.Map.Collection.CardStacks.ToList();
+                    foreach (var stack in collection)
+                    {
+                        var cardName = stack.CardDefinition.Name;
+                        var isGolden = stack.CardDefinition.Premium != 0;
+                        var count = stack.Count;
+                        var isGoldenText = isGolden ? "GOLDEN " : "";
+                        sb.AppendLine($"Card: {isGoldenText}{cardName} x{count}");
+                    }
                 }
                 //sb.AppendLine($"COUNTER: {counter}");
                 await UpdateLabelOutputAsync(sb.ToString());

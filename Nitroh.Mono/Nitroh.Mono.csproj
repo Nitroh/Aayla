@@ -47,6 +47,7 @@
     <Compile Include="Internals\image_h.cs" />
     <Compile Include="Internals\metadata_h.cs" />
     <Compile Include="Internals\metadata_internals_h.cs" />
+    <Compile Include="Internals\object_h.cs" />
     <Compile Include="MonoClassEx.cs" />
     <Compile Include="MonoClassFieldEx.cs" />
     <Compile Include="MonoExecutable.cs" />

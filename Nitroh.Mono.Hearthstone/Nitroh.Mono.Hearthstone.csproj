@@ -44,8 +44,10 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="GameManager.cs" />
+    <Compile Include="HearthstoneEnums.cs" />
     <Compile Include="HearthstoneExecutable.cs" />
     <Compile Include="HearthstoneMonoObject.cs" />
+    <Compile Include="NetCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
