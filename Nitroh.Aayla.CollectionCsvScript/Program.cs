@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Nitroh.Aayla.Hearthstone.Data;
 using Nitroh.Mono.Hearthstone;
 
 namespace Nitroh.Aayla.CollectionCsvScript
 {
     public static class Program
     {
-        private const string SolutionItemsDirectoryName = @"SolutionItems";
-        private const string CardsCsvFileName = @"cards.csv";
         private const string OutputCsvFileName = @"collection.csv";
 
         public static void Main(string[] args)
@@ -67,36 +66,9 @@ namespace Nitroh.Aayla.CollectionCsvScript
         private static Dictionary<string, string> GetCards()
         {
             var result = new Dictionary<string, string>();
-            var currentDirectoryInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
-            var baseDirectoryInfo = currentDirectoryInfo.Parent?.Parent?.Parent;
-            var solutionItemsDirectoryInfo = baseDirectoryInfo?.GetDirectories().FirstOrDefault(x => x.Name == SolutionItemsDirectoryName);
-            var csvFileInfo = solutionItemsDirectoryInfo?.GetFiles().FirstOrDefault(x => x.Name == CardsCsvFileName);
-            if (csvFileInfo == null) return null;
-
-            var csvData = new List<string>();
-            using (var fileStream = new FileStream(csvFileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                using (var streamReader = new StreamReader(fileStream))
-                {
-                    var line = streamReader.ReadLine();
-                    while (line != null && !streamReader.EndOfStream)
-                    {
-                        csvData.Add(line);
-                        line = streamReader.ReadLine();
-                    }
-                }
-            }
-
-            var separators = new[] {"\",\""};
-            for (var index = 1; index < csvData.Count; index++)
-            {
-                var line = csvData[index];
-                var splitLine = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-                bool collectible;
-                var valid = bool.TryParse(splitLine[2].Replace("\"", ""), out collectible);
-                if (!valid || !collectible) continue;
-                result.Add(splitLine[0].Replace("\"", ""), splitLine[1].Replace("\"", ""));
-            }
+            var repo = new CardRepository();
+            var cards = repo.GetAllCards().ToList();
+            cards.ForEach(x => result.Add(x.id, x.name));
             return result;
         }
     }

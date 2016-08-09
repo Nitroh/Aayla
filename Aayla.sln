@@ -7,7 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nitroh.Mono", "Nitroh.Mono\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BDFA8647-1057-461E-9127-883BCC099971}"
 	ProjectSection(SolutionItems) = preProject
-		SolutionItems\cards.csv = SolutionItems\cards.csv
 		SolutionItems\SharedAssemblyInfo.cs = SolutionItems\SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
@@ -18,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nitroh.Mono.Hearthstone", "Nitroh.Mono.Hearthstone\Nitroh.Mono.Hearthstone.csproj", "{2CF890F5-4D81-4705-AE29-5F1D7FAAD4BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nitroh.Aayla.CollectionCsvScript", "Nitroh.Aayla.CollectionCsvScript\Nitroh.Aayla.CollectionCsvScript.csproj", "{75D09E1A-89D4-49C5-BFCA-B6573B0DE180}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nitroh.Aayla.Hearthstone.Data", "Nitroh.Aayla.Hearthstone.Data\Nitroh.Aayla.Hearthstone.Data.csproj", "{96867CC0-A49A-4BFA-8865-91BDC933DB5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +46,10 @@ Global
 		{75D09E1A-89D4-49C5-BFCA-B6573B0DE180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75D09E1A-89D4-49C5-BFCA-B6573B0DE180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75D09E1A-89D4-49C5-BFCA-B6573B0DE180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96867CC0-A49A-4BFA-8865-91BDC933DB5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96867CC0-A49A-4BFA-8865-91BDC933DB5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96867CC0-A49A-4BFA-8865-91BDC933DB5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96867CC0-A49A-4BFA-8865-91BDC933DB5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
