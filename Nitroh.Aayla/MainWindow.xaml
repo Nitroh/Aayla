@@ -6,6 +6,36 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Label x:Name="LabelOutput"></Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="StackPanelNavigation" Grid.Row="0" Orientation="Horizontal">
+            <Button x:Name="ButtonNavHome" Click="ButtonNavHome_OnClick">HOME</Button>
+            <Button x:Name="ButtonNavCollection" Click="ButtonNavCollection_OnClick">COLLECTION</Button>
+            <Label x:Name="LabelRunning">Running: False</Label>
+        </StackPanel>
+        <StackPanel x:Name="StackPanelMain" Grid.Row="1" Orientation="Horizontal">
+            <Label x:Name="LabelOutput">HOME</Label>
+        </StackPanel>
+        <StackPanel x:Name="StackPanelCollection" Grid.Row="1" Orientation="Vertical" Visibility="Hidden">
+            <Button x:Name="ButtonCollectionUpdate" Click="ButtonCollectionUpdate_OnClick">Update Collection</Button>
+            <Grid x:Name="GridSummary" DataContext="{Binding CollectionSummary.TotalLine, RelativeSource={RelativeSource AncestorType=Window}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="LabelSummaryName" Grid.Column="0" Content="{Binding Path=Name}" />
+                <Label x:Name="LabelSummaryTotal" Grid.Column="1" Content="{Binding Path=Total}" />
+                <Label x:Name="LabelSummaryCount" Grid.Column="2" Content="{Binding Path=Count}" />
+                <Label x:Name="LabelSummaryCountPercent" Grid.Column="3" Content="{Binding Path=CountPercentage}" />
+                <Label x:Name="LabelSummaryGoldenCount" Grid.Column="4" Content="{Binding Path=GoldenCount}" />
+                <Label x:Name="LabelSummaryGoldenCountPercent" Grid.Column="5" Content="{Binding Path=GoldenCountPercentage}" />
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>
