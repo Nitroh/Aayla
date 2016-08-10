@@ -3,12 +3,16 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using Newtonsoft.Json;
+using Nitroh.Aayla.Dtos;
+using CardDto = Nitroh.Aayla.Dtos.Card;
 
 namespace Nitroh.Aayla.Hearthstone.Data
 {
     public class CardRepository
     {
         private List<Card> _cards;
+
+        private List<Card> CollectibleCards => _cards.Where(x => x.collectible ?? false).ToList();
 
         public bool Valid { get; }
 
@@ -18,10 +22,32 @@ namespace Nitroh.Aayla.Hearthstone.Data
             Valid = LoadJsonData();
         }
 
-        public IEnumerable<Card> GetAllCards() => Valid ? _cards.Where(x => x.collectible.HasValue && x.collectible.Value).ToList() : null;
+        public IEnumerable<CardDto> GetAllCards()
+        {
+            var result = new List<CardDto>();
+            if (!Valid) return result;
+            CollectibleCards.ForEach(x => result.Add(ConvertCard(x)));
+            return result.Where(x => x.Type != Type.None).ToList();
+        }
+
+        private static CardDto ConvertCard(Card card)
+        {
+            var result = new CardDto
+            {
+                Id = card.id,
+                Name = card.name,
+                Type = card.type.ToType(),
+                Rarity = card.rarity.ToRarity(),
+                Class = card.playerClass.ToClass(),
+                Set = card.set.ToSet()
+            };
+            result.MaxCount = result.Rarity.GetMaxCount();
+            result.SetString = result.Set.GetSetString();
+            result.GameMode = result.Set.GetGameMode();
+            return result;
+        }
 
         #region Json Loading
-
         //TODO: Detect updates!
         private bool LoadJsonData()
         {

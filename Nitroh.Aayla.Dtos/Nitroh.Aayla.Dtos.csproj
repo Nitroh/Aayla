@@ -4,18 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{75D09E1A-89D4-49C5-BFCA-B6573B0DE180}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{34004BD3-CA1C-4E5B-A176-2FE573000D70}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nitroh.Aayla.CollectionCsvScript</RootNamespace>
-    <AssemblyName>Nitroh.Aayla.CollectionCsvScript</AssemblyName>
+    <RootNamespace>Nitroh.Aayla.Dtos</RootNamespace>
+    <AssemblyName>Nitroh.Aayla.Dtos</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -47,34 +43,13 @@
     <Compile Include="..\SolutionItems\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CollectionCard.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Card.cs" />
+    <Compile Include="Class.cs" />
+    <Compile Include="GameMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Nitroh.Aayla.Dtos\Nitroh.Aayla.Dtos.csproj">
-      <Project>{34004bd3-ca1c-4e5b-a176-2fe573000d70}</Project>
-      <Name>Nitroh.Aayla.Dtos</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nitroh.Aayla.Hearthstone.Data\Nitroh.Aayla.Hearthstone.Data.csproj">
-      <Project>{96867CC0-A49A-4BFA-8865-91BDC933DB5B}</Project>
-      <Name>Nitroh.Aayla.Hearthstone.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nitroh.Mono.Hearthstone\Nitroh.Mono.Hearthstone.csproj">
-      <Project>{2cf890f5-4d81-4705-ae29-5f1d7faad4ba}</Project>
-      <Name>Nitroh.Mono.Hearthstone</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nitroh.Mono\Nitroh.Mono.csproj">
-      <Project>{13e4cccc-cd04-4bb5-b6db-9726ecde53a9}</Project>
-      <Name>Nitroh.Mono</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nitroh.Windows\Nitroh.Windows.csproj">
-      <Project>{720273a6-a653-4efd-963c-ab5a782f3925}</Project>
-      <Name>Nitroh.Windows</Name>
-    </ProjectReference>
+    <Compile Include="Rarity.cs" />
+    <Compile Include="Set.cs" />
+    <Compile Include="Type.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

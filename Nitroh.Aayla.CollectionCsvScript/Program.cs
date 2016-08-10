@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Nitroh.Aayla.Hearthstone.Data;
 using Nitroh.Mono.Hearthstone;
+using Card = Nitroh.Aayla.Dtos.Card;
 
 namespace Nitroh.Aayla.CollectionCsvScript
 {
@@ -14,8 +15,8 @@ namespace Nitroh.Aayla.CollectionCsvScript
 
         public static void Main(string[] args)
         {
-            var cards = GetCards();
-            if (cards == null || cards.Count == 0)
+            var cards = GetCards().ToList();
+            if (cards.Count == 0)
             {
                 //TODO: error here
                 return;
@@ -35,16 +36,15 @@ namespace Nitroh.Aayla.CollectionCsvScript
                 return;
             }
 
-            var results = cards.Select(card => new CollectionCard {Id = card.Key, Name = card.Value, Count = 0, GoldenCount = 0}).ToList();
+            var results = cards.Select(card => new CollectionCard {Card = card, Count = 0, GoldenCount = 0}).ToList();
             foreach (var cardStack in cardStacks)
             {
                 var id = cardStack.CardDefinition.Name;
-                var index = results.FindIndex(x => x.Id == id);
+                var index = results.FindIndex(x => x.Card.Id == id);
                 if (index == -1) throw new Exception("Should not see this");
-                var name = results[index].Name;
                 var count = cardStack.CardDefinition.Premium == 0 ? cardStack.Count : results[index].Count;
                 var goldenCount = cardStack.CardDefinition.Premium == 1 ? cardStack.Count : results[index].GoldenCount;
-                results[index] = new CollectionCard { Id = id, Name = name, Count = count, GoldenCount = goldenCount };
+                results[index] = new CollectionCard { Card = results[index].Card, Count = count, GoldenCount = goldenCount };
             }
 
             OutputCollection(results);
@@ -52,24 +52,22 @@ namespace Nitroh.Aayla.CollectionCsvScript
 
         private static void OutputCollection(IEnumerable<CollectionCard> collection)
         {
+            var collectionList = collection as IList<CollectionCard> ?? collection.ToList();
+
             var fileInfo = new FileInfo(OutputCsvFileName);
             if(fileInfo.Exists) fileInfo.Delete();
+
             var sb = new StringBuilder();
-            sb.AppendLine("\"Name\",\"Count\",\"GoldenCount\"");
-            foreach (var card in collection)
-            {
-                sb.AppendLine($"\"{card.Name}\",\"{card.Count}\",\"{card.GoldenCount}\"");
-            }
+            sb.AppendLine(CollectionCard.GetCsvHeaderLine());
+            collectionList.ToList().ForEach(x => sb.AppendLine(x.ToCsvLine()));
             File.WriteAllText(fileInfo.FullName, sb.ToString());
         }
 
-        private static Dictionary<string, string> GetCards()
+        private static IEnumerable<Card> GetCards()
         {
-            var result = new Dictionary<string, string>();
             var repo = new CardRepository();
             var cards = repo.GetAllCards().ToList();
-            cards.ForEach(x => result.Add(x.id, x.name));
-            return result;
+            return cards;
         }
     }
 }
